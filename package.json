@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "devDependencies": {
+    "mustache": "^4.2.0",
     "static-server": "^2.2.1"
   },
   "scripts": {

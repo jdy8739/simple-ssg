@@ -1,21 +1,45 @@
 import fs from 'fs';
+import Mustache from 'mustache';
+import CONFIG from '../config.js';
 
-fs.mkdirSync('dist');
+const { build: { dist: DIST, pages: PAGES, contents } } = CONFIG;
 
-const files = fs.readdirSync('pages');
+const makeDistDir = () => fs.mkdirSync(DIST);
 
-for (const file of files) {
-    const fileName = `pages/${file}`;
+const readFiles = () => fs.readdirSync(PAGES);
 
-    if (file === 'index.html') {
-        fs.copyFileSync(fileName, `dist/${file}`);
-    } else {
-        const dirName = file.split('.')[0];
+const renderFiles = (src, dest) => {
+    const file = fs.readFileSync(src);
 
-        const path = `dist/${dirName}`;
+    const renderedFile = Mustache.render(file.toString(), CONFIG);
 
-        fs.mkdirSync(path);
+    fs.writeFileSync(dest, renderedFile);
+};
 
-        fs.copyFileSync(fileName, `${path}/index.html`);
+const copyFiles = (files) => {
+    for (const file of files) {
+        const src = `${PAGES}/${file}`;
+
+        if (file === 'index.html') {
+            renderFiles(src, `${DIST}/${file}`);
+        } else {
+            const dirName = file.split('.')[0];
+
+            const path = `${DIST}/${dirName}`;
+
+            fs.mkdirSync(path);
+
+            renderFiles(src, `${path}/index.html`);
+        }
     }
-}
+};
+
+const build = () => {
+    makeDistDir();
+
+    const files = readFiles();
+
+    copyFiles(files);
+};
+
+build();
