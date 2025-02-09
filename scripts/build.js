@@ -16,6 +16,6 @@ for (const file of files) {
 
         fs.mkdirSync(path);
 
-        fs.copyFileSync(fileName, `${path}/${file}`);
+        fs.copyFileSync(fileName, `${path}/index.html`);
     }
 }
