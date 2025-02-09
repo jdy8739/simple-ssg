@@ -1,0 +1,17 @@
+{
+  "name": "simple-ssg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {
+    "static-server": "^2.2.1"
+  },
+  "scripts": {
+    "dev": "static-server pages",
+    "build": "rm -rf dist && node ./scripts/build.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "license": "MIT",
+  "author": "jdy8739"
+}
