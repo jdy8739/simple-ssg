@@ -4,42 +4,56 @@ import CONFIG from '../config.js';
 
 const { build: { dist: DIST, pages: PAGES, contents } } = CONFIG;
 
-const makeDistDir = () => fs.mkdirSync(DIST);
+const makeDistDir = (src) => fs.mkdirSync(src);
 
-const readFiles = () => fs.readdirSync(PAGES);
-
-const renderFiles = (src, dest) => {
+const fillHtml = (src) => {
     const file = fs.readFileSync(src);
 
-    const renderedFile = Mustache.render(file.toString(), CONFIG);
+    const filledFile = Mustache.render(file.toString(), CONFIG);
 
-    fs.writeFileSync(dest, renderedFile);
+    return filledFile;
 };
 
-const copyFiles = (files) => {
-    for (const file of files) {
+const writeHtmlFiles = ({ dest, file }) => {
+    // make dir if it is not root page.
+    if (dest !== 'dist/index.html') {
+        const path = dest.replace('/index.html', '');
+        makeDistDir(path);
+    }
+
+    fs.writeFileSync(dest, file);
+};
+
+const completeHtmlFiles = (files) => {
+    return files.reduce((acc, file) => {
         const src = `${PAGES}/${file}`;
 
         if (file === 'index.html') {
-            renderFiles(src, `${DIST}/${file}`);
+            acc.push({ dest: `${DIST}/${file}`, file: fillHtml(src) })
         } else {
             const dirName = file.split('.')[0];
 
             const path = `${DIST}/${dirName}`;
 
-            fs.mkdirSync(path);
-
-            renderFiles(src, `${path}/index.html`);
+            acc.push({ dest: `${path}/index.html`, file: fillHtml(src) });
         }
-    }
+
+        return acc;
+    }, []);
+};
+
+const buildCompleteHtmls = () => {
+    makeDistDir(DIST);
+
+    const htmlFiles = fs.readdirSync(PAGES);
+
+    const completeHtmls = completeHtmlFiles(htmlFiles);
+
+    completeHtmls.forEach(writeHtmlFiles);
 };
 
 const build = () => {
-    makeDistDir();
-
-    const files = readFiles();
-
-    copyFiles(files);
+    buildCompleteHtmls();
 };
 
 build();
