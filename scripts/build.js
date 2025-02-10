@@ -79,7 +79,9 @@ const buildContentFiles = () => {
 
         const bodyContent = new Showdown.Converter().makeHtml(body);
 
-        const html = Mustache.render(template.toString(), { ...CONFIG, post: { ...attributes, body: bodyContent } });
+        const html = Mustache.render(template.toString(),
+            { ...CONFIG, post: CONFIG.updatePost({ ...attributes, body: bodyContent }) }
+        );
 
         const dirName = `${path}/${file}`;
 
