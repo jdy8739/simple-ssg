@@ -16,13 +16,13 @@ const createPathDir = () => {
     makeDir(path);
 
     return path;
-}
+};
 
 const writeHtmlFils = ({ dest, file }) => {
     makeDir(dest);
 
     writeFile(`${dest}/index.html`, file);
-}
+};
 
 const getFilledHtmlFile = (content, template) => {
     // get meta tags and body content from markdown files.
@@ -37,7 +37,7 @@ const getFilledHtmlFile = (content, template) => {
     );
 
     return html;
-}
+};
 
 const convertMarkdownIntoHtml = (path, files, template) => {
     return files.reduce((acc, file) => {

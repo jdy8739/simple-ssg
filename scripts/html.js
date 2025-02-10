@@ -56,7 +56,7 @@ const getRecentPosts = (src) => {
 
         const { attributes } = frontMatter(content.toString());
 
-        acc.push({ ...attributes, path: `/${CONTESTS_SLUG}/${attributes.slug}` });
+        acc.push(CONFIG.updatePost({ ...attributes, path: `/${CONTESTS_SLUG}/${attributes.slug}` }));
 
         return acc;
     }, []);
