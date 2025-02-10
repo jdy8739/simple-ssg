@@ -17,10 +17,10 @@ const readDir = (src) => fs.readdirSync(src);
 
 const readFile = (src) => fs.readFileSync(src);
 
-const fillHtml = (src) => {
+const fillHtml = (src, recentPosts) => {
     const file = readFile(src);
 
-    const filledFile = Mustache.render(file.toString(), CONFIG);
+    const filledFile = Mustache.render(file.toString(), { ...CONFIG, recentPosts });
 
     return filledFile;
 };
@@ -35,19 +35,35 @@ const writeHtmlFile = ({ dest, file }) => {
     fs.writeFileSync(dest, file);
 };
 
-const completeHtmlFiles = (files) => {
+const completeHtmlFiles = (files, recentPosts) => {
     return files.reduce((acc, file) => {
         const src = `${PAGES}/${file}`;
 
         if (file === 'index.html') {
-            acc.push({ dest: `${DIST}/${file}`, file: fillHtml(src) })
+            acc.push({ dest: `${DIST}/${file}`, file: fillHtml(src, recentPosts) })
         } else {
             const dirName = file.split('.')[0];
 
             const path = `${DIST}/${dirName}`;
 
-            acc.push({ dest: `${path}/index.html`, file: fillHtml(src) });
+            acc.push({ dest: `${path}/index.html`, file: fillHtml(src, recentPosts) });
         }
+
+        return acc;
+    }, []);
+};
+
+const getRecentPosts = (src) => {
+    const contentFiles = readDir(src);
+
+    return contentFiles.reduce((acc, file) => {
+        const contentSrc = `${CONTENTS}/${file}/index.md`;
+
+        const content = readFile(contentSrc);
+
+        const { attributes } = frontMatter(content.toString());
+
+        acc.push({ ...attributes, path: `/${CONTESTS_SLUG}/${attributes.slug}` });
 
         return acc;
     }, []);
@@ -56,7 +72,9 @@ const completeHtmlFiles = (files) => {
 const buildHtmlFiles = () => {
     const htmlFiles = readDir(PAGES);
 
-    const completeHtmls = completeHtmlFiles(htmlFiles);
+    const recentPosts = getRecentPosts(CONTENTS);
+
+    const completeHtmls = completeHtmlFiles(htmlFiles, recentPosts);
 
     completeHtmls.forEach(writeHtmlFile);
 };
