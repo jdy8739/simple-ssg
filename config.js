@@ -1,8 +1,9 @@
 export default {
     build: {
-        contents: 'content',
+        contents: 'contents',
         pages: 'pages',
-        dist: 'dist'
+        dist: 'dist',
+        contentsSlug: 'post'
     },
     site: {
         title: 'My Blog'

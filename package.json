@@ -6,6 +6,7 @@
   "devDependencies": {
     "front-matter": "^4.0.2",
     "mustache": "^4.2.0",
+    "showdown": "^2.1.0",
     "static-server": "^2.2.1"
   },
   "scripts": {
