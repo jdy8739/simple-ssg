@@ -10,9 +10,7 @@ const { build: {
     contentsSlug: CONTESTS_SLUG
 }} = CONFIG;
 
-const createPathDir = () => {
-    const path = `${DIST}/${CONTESTS_SLUG}`;
-
+const createPathDir = (path) => {
     makeDir(path);
 
     return path;
@@ -54,11 +52,11 @@ const convertMarkdownIntoHtml = (path, files, template) => {
 };
 
 const buildContentFiles = () => {
-    const path = createPathDir();
-
     const markdownFiles = readDir(CONTENTS);
 
     const template = readFile('template/post.html');
+
+    const path = createPathDir(`${DIST}/${CONTESTS_SLUG}`);
 
     const htmlFilesFromMarkdown = convertMarkdownIntoHtml(path, markdownFiles, template);
 
