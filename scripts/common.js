@@ -8,15 +8,16 @@ const readFile = (src) => fs.readFileSync(src);
 
 const writeFile = (src, file) => fs.writeFileSync(src, file);
 
-const getHtmlWithPico = (html) => {
+const getHtmlWithStyle = (html) => {
     const split = html.split('</title>');
 
     split.splice(1, 0,
         '</title>\n' +
-        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">'
-        );
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">\n' +
+        '<link rel="stylesheet" href="/style.css">\n'
+    );
 
     return split.join('');
 };
 
-export { makeDir, readDir, readFile, writeFile, getHtmlWithPico };
+export { makeDir, readDir, readFile, writeFile, getHtmlWithStyle };

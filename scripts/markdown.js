@@ -1,5 +1,5 @@
 import CONFIG from '../config.js';
-import { makeDir, readDir, readFile, writeFile, getHtmlWithPico } from './common.js';
+import { makeDir, readDir, readFile, writeFile, getHtmlWithStyle } from './common.js';
 import frontMatter from 'front-matter';
 import Mustache from 'mustache';
 import Showdown from 'showdown';
@@ -16,7 +16,7 @@ const createPathDir = (path) => {
     return path;
 };
 
-const writeHtmlFils = ({ dest, file }) => {
+const writeHtmlFiles = ({ dest, file }) => {
     makeDir(dest);
 
     writeFile(`${dest}/index.html`, file);
@@ -43,7 +43,7 @@ const convertMarkdownIntoHtml = (path, files, template) => {
 
         const markdownFile = readFile(src);
 
-        const html = getHtmlWithPico(getFilledHtmlFile(markdownFile, template));
+        const html = getHtmlWithStyle(getFilledHtmlFile(markdownFile, template));
 
         acc.push({ dest: `${path}/${file}`, file: html });
 
@@ -60,7 +60,7 @@ const buildContentFiles = () => {
 
     const htmlFilesFromMarkdown = convertMarkdownIntoHtml(path, markdownFiles, template);
 
-    htmlFilesFromMarkdown.forEach(writeHtmlFils);
+    htmlFilesFromMarkdown.forEach(writeHtmlFiles);
 };
 
 export default buildContentFiles;

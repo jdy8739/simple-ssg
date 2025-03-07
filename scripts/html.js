@@ -1,6 +1,6 @@
 import Mustache from 'mustache';
 import CONFIG from '../config.js';
-import { makeDir, readDir, readFile, writeFile, getHtmlWithPico } from './common.js';
+import { makeDir, readDir, readFile, writeFile, getHtmlWithStyle } from './common.js';
 import frontMatter from 'front-matter';
 
 const { build: {
@@ -32,7 +32,7 @@ const completeHtmlFiles = (files, recentPosts) => {
     return files.reduce((acc, file) => {
         const src = `${PAGES}/${file}`;
 
-        const htmlWithPico = getHtmlWithPico(fillHtml(src, recentPosts));
+        const htmlWithPico = getHtmlWithStyle(fillHtml(src, recentPosts));
 
         if (file === 'index.html') {
             acc.push({ dest: `${DIST}/${file}`, file: htmlWithPico });
