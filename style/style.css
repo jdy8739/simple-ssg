@@ -1,0 +1,40 @@
+/* Main content styling */
+body {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 3rem 2rem;    /* 좌우/상하 여백 증가 */
+    line-height: 1.8;      /* 줄간격 증가 */
+}
+
+body > p:nth-child(3) {
+    margin-top: 3rem;
+}
+
+/* Headings */
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;   /* 여백 증가 */
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-top: 3rem;      /* 상단 여백 증가 */
+    margin-bottom: 1.5rem; /* 하단 여백 증가 */
+}
+
+h3 {
+    font-size: 1.4rem;
+    margin-top: 2.5rem;    /* 상단 여백 증가 */
+    margin-bottom: 1rem;   /* 하단 여백 조정 */
+}
+
+/* Lists */
+ul {
+    padding-left: 2rem;    /* 들여쓰기 증가 */
+    margin-bottom: 2rem;   /* 하단 여백 증가 */
+}
+
+li {
+    margin-bottom: 0.8rem; /* 항목 간 간격 증가 */
+    padding-left: 0.5rem;  /* 항목 내부 여백 추가 */
+}
