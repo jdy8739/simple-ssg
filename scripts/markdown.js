@@ -1,5 +1,5 @@
 import CONFIG from '../config.js';
-import { makeDir, readDir, readFile, writeFile } from './common.js';
+import { makeDir, readDir, readFile, writeFile, getHtmlWithPico } from './common.js';
 import frontMatter from 'front-matter';
 import Mustache from 'mustache';
 import Showdown from 'showdown';
@@ -43,7 +43,7 @@ const convertMarkdownIntoHtml = (path, files, template) => {
 
         const markdownFile = readFile(src);
 
-        const html = getFilledHtmlFile(markdownFile, template);
+        const html = getHtmlWithPico(getFilledHtmlFile(markdownFile, template));
 
         acc.push({ dest: `${path}/${file}`, file: html });
 
